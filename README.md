@@ -1,7 +1,7 @@
 # ARC-Solver
 
 ## Note:
-Works with **linux**, with WSL might need to do a `wsl --update` for the project to work correctly, even if inside a docker container.
+Works with **linux**; on **Windows** with **WSL** might need to do a `wsl --update` for the project to work correctly, even if inside a docker container.
 
 There is not authentification, so should run locally only.
 
