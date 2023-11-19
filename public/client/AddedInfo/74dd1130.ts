@@ -1,0 +1,1 @@
+solution2(basic_grid, basic_grid, image => new ImageTransformation(Transform.transpose, image));

@@ -1,0 +1,1 @@
+solution2(color_decomposition(basic_grid), color_decomposition(basic_grid));

@@ -1,0 +1,2 @@
+solution2(image_window(object_list2(trim_object_center(monochrome_decomposition_abstraction('bud', [basic_grid])))),
+    image_window(object_list2(trim_object_center(monochrome_decomposition_abstraction('flower', [basic_grid])))))

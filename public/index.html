@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <title>ARC Solver</title>
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <link rel="manifest" href="/manifest.json">
+    <link
+    rel="stylesheet"
+    data-name="vs/editor/editor.main"
+    href="monaco-editor/min/vs/editor/editor.main.css"
+    />
+    <style>
+      th {
+        text-align: left;
+        vertical-align: top;
+      }
+
+    </style>
+</head>
+  <body>
+    <div id="container" style="width: 800px; height: 300px; border: 1px solid grey"></div>
+
+    <script>
+      var require = { paths: { vs: 'monaco-editor/min/vs' } };
+    </script>
+    <script src="monaco-editor/min/vs/loader.js"></script>
+    <script src="monaco-editor/min/vs/editor/editor.main.nls.js"></script>
+    <script src="monaco-editor/min/vs/editor/editor.main.js"></script>
+    <script src="typescript/lib/typescript.js"></script>
+    <script src="client.js"></script>
+    <script>
+      if('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('/service_worker.js', { scope: '/' });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,1 @@
+solution2(basic_grid, background(undefined, basic_grid))

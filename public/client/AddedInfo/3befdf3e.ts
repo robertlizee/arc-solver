@@ -1,0 +1,2 @@
+solution2(image_window(object_list(trim_object_center(monochrome_object_list_abstraction('bud', [trim_object_center(semantic_box), trim_object_center(image_window(solid_color))])))),
+    image_window(object_list(trim_object_center(monochrome_object_list_abstraction('flower', [trim_object_center(semantic_box), trim_object_center(image_window(solid_color))])))))

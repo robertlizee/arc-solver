@@ -1,0 +1,1 @@
+solution2(master_grid(2, 1, basic_grid), master_grid(3, 3, monochrome(basic_grid)));

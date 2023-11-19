@@ -1,0 +1,1 @@
+solution2(tile(basic_grid), basic_grid);

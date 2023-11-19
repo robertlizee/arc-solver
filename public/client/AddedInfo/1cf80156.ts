@@ -1,0 +1,1 @@
+solution2(trim_object(basic_grid), basic_grid);

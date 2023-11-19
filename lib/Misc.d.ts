@@ -1,0 +1,32 @@
+export declare function eqSet<X>(a: Set<X>, b: Set<X>): boolean;
+export declare function set_equal<X>(a: Set<X>, b: Set<X>): boolean;
+export declare function set_union<X>(...all_sets: Set<X>[]): Set<X>;
+export declare function set_intersection_equal<X>(a: Set<X>, b: Set<X>): void;
+export declare function set_intersection<X>(...rest: Set<X>[]): Set<X>;
+export declare function count<A>(list: A[], test: (a: A) => boolean): number;
+export declare function functionRaiser<A, B, T>(t: (b: B) => A): (f: (a: A, ...indices: number[]) => T) => ((b: B, ...indices: number[]) => T);
+export declare function highest<X>(objs: X[] | Set<X>, func: (x: X) => number): X | undefined;
+export declare function lowest<X>(objs: X[] | Set<X>, func: (x: X) => number): X | undefined;
+export declare function highests<X>(objs: X[] | Set<X>, func: (x: X) => number): X[];
+export declare function lowests<X>(objs: X[] | Set<X>, func: (x: X) => number): X[];
+export declare function select<X>(objs: X[] | Set<X>, test: (x: X) => boolean): X | undefined;
+export declare function selects<X>(objs: X[] | Set<X>, test: (x: X) => boolean): X[];
+export declare function count_items<X>(objs: X[]): Map<X, number>;
+export declare function make_permutation_set(n: number): Set<number[]>;
+export declare function count_bits(n: bigint): number;
+export declare function bitfield_to_string(bitfield: bigint): string;
+export declare function booleans_to_bitfield(values: boolean[]): bigint;
+export declare function append_vectors<X>(...vectors: X[][]): X[];
+export declare function all<X>(v: X[], test: (x: X) => boolean): boolean;
+export declare function range(n: number): Generator<number, void, unknown>;
+export declare function first_n<X>(n: number, generator: Generator<X>): Generator<X>;
+export declare class GenericError<T> {
+    message: string;
+    data: T;
+    constructor(message: string, data: T);
+}
+export declare function operator_v<T>(oper: (a: T, b: T) => T): (v: T[]) => T;
+export declare const bitfield_or_v: (v: bigint[]) => bigint;
+export declare const bitfield_and_v: (v: bigint[]) => bigint;
+export declare function random_permutation<X>(list: X[]): X[];
+export declare function random_element<X>(xs: X[]): X | undefined;

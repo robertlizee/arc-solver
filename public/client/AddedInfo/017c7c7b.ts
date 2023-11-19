@@ -1,0 +1,1 @@
+solution2(monochrome(basic_grid), tile(monochrome(basic_grid)))

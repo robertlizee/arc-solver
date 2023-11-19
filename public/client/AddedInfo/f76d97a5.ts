@@ -1,0 +1,1 @@
+solution2(color_decomposition(basic_grid), background(Color.true_black, color_decomposition(basic_grid)));

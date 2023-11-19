@@ -1,0 +1,17 @@
+{
+    "lang": "en-us",
+    "name": "ARC Solver",
+    "short_name": "ARC Solver",
+    "description": "Robert Lizee solver for the ARC Challenge",
+    "start_url": "/",
+    "background_color": "#2f3d58",
+    "theme_color": "#2f3d58",
+    "orientation": "any",
+    "display": "standalone",
+    "icons": [
+        {
+            "src": "/icon.png",
+            "sizes": "144x144"
+        }
+    ]
+}

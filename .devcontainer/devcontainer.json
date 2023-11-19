@@ -1,0 +1,35 @@
+{
+	"name": "ARC_Solver",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	//"runArgs": [ "--cap-add=SYS_PTRACE", "--security-opt", "seccomp=unconfined" ],
+
+	// Set *default* container specific settings.json values on container create.
+    "customizations": {
+        "vscode": {
+            "settings": { 
+                //"terminal.integrated.shell.linux": "/bin/bash",
+                //"lldb.executable": "/usr/bin/lldb",
+                // VS Code don't watch files under ./target
+                //"files.watcherExclude": {
+                //   "**/target/**": true
+                //}
+            }        
+        },
+    	// Add the IDs of extensions you want installed when the container is created.
+	    "extensions": [
+        ]
+    },
+
+    
+    "mounts": [
+        //"source=vscode-server-v2,target=/home/vscode/.vscode-server,type=volume",
+        // And/or for VS Code Insiders
+        //"source=vscode-server-insiders-v2,target=/home/vscode/.vscode-server-insiders,type=volume",
+    ],
+
+	"appPort": [
+        //"0.0.0.0:8888:8888", "0.0.0.0:8080:8080", "0.0.0.0:8000:8000", "0.0.0.0:8889:8889", "0.0.0.0:4000:4000", "0.0.0.0:9229:9229", "0.0.0.0:1234:1234"
+    ]
+}

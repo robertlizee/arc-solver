@@ -1,0 +1,2 @@
+solution2(transform(Transform.flip_y, image_window(monochrome_object_list(trim_object(image_window(solid_color))))),
+    transform(Transform.flip_y, image_window(object_list(monochrome_object_list_abstraction('line', [trim_object(image_window(solid_color))])))));

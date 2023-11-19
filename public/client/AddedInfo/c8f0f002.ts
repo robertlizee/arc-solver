@@ -1,0 +1,1 @@
+solution2(pixel_grid, pixel_grid)

@@ -1,0 +1,1 @@
+solution2(monochrome_object_list2(trim_object(basic_grid)), master_grid(1, 3, monochrome(basic_grid)));

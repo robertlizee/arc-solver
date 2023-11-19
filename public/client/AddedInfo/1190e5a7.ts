@@ -1,0 +1,1 @@
+solution2(find_master_grid(solid_color), image_window(solid_color));

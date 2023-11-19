@@ -1,0 +1,1 @@
+solution2(background(undefined, object_list(monochrome(basic_grid))), background(undefined, object_list(monochrome(basic_grid))));

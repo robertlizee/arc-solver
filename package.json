@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "monaco-editor": "^0.40.0",
+    "typescript": "^5.1.6"
+  },
+  "devDependencies": {
+    "bun-types": "^1.0.11"
+  },
+  "scripts": {
+    "start": "rm lib/*.d.ts && tsc --target ES2022 --declaration --emitDeclarationOnly --allowImportingTsExtensions lib/Solution.ts && rm public/All.d.ts && cat lib/*.d.ts >> public/All.d.ts && sed 's/^export //' public/All.d.ts > public/_All.d.ts && sed '/^import /d' public/_All.d.ts > public/All.d.ts && rm public/_All.d.ts && bun server/server.ts"
+  }
+}
