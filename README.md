@@ -8,7 +8,7 @@ There is not authentification, so should run locally only.
 ## Installation
 ### Cloning the repesitory:
 `git clone --recurse-submodules https://github.com/robertlizee/arc-solver.git`
-### Use *Visual Code* and open the project in a [container](https://code.visualstudio.com/docs/devcontainers/containers) (or install [bun](https://bun.sh/) and [sed](https://www.gnu.org/software/sed/manual/sed.html)).
+### Use [Visual Studio Code](https://code.visualstudio.com/) and open the project in a [container](https://code.visualstudio.com/docs/devcontainers/containers) (or install [bun](https://bun.sh/) and [sed](https://www.gnu.org/software/sed/manual/sed.html)).
 ### Initialization:
 `bun install`
 
