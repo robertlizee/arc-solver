@@ -5,7 +5,7 @@ Works works linux, with WSL might need to do a `wsl --update` for the project to
 
 ## Installation
 ### Cloning the repesitory:
-`git clone --recurse-submodules`
+`git clone --recurse-submodules https://github.com/robertlizee/arc-solver.git`
 ### Use Visual Code and open the project in a container or install bun and sed.
 ### Initialization:
 `bun install`
