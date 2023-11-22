@@ -22,33 +22,41 @@
  * SOFTWARE.
  */
 
-import { WorkerLoop } from "./WorkerLoop";
-const worker_loop = new WorkerLoop();
-import { solve_puzzle_trying_all_decomposers, solve_puzzle } from "../lib/UsingSolver";
-import { Decomposer } from "../lib/DecomposersData";
-import { set_logging } from "../lib/Logger";
-import { ArcPuzzle } from "../lib/ArcPuzzle";
+import { Task, TaskResult } from "./WorkerTask";
 
-set_logging(false);
+export class WorkerLoop<X, Y> {
 
-async function worker_handle_message(message: 
-    { task: 'solve_puzzle', puzzle: ArcPuzzle }
-    | { task: 'solve_puzzle_trying_all_decomposers', puzzle: ArcPuzzle, decomposers: { decomposer_input: Decomposer, decomposer_output: Decomposer}[] }
-    )
-{
-    console.log('received message from main', message);
-    switch (message.task) {
-        case 'solve_puzzle':
-            await solve_puzzle(message.puzzle);
-            return message.puzzle;
-        case 'solve_puzzle_trying_all_decomposers':
-            await solve_puzzle_trying_all_decomposers(message.puzzle, message.decomposers);
-            return message.puzzle;
+    working = false;
+
+    things_to_do: Task<X>[] = [];
+
+    f?: (x: X) => Promise<Y>
+
+    constructor() {
+        onmessage = event => {
+            this.things_to_do.push(event.data);
+            this.handle_things_to_do();
+        }
+    }
+
+    start(f: (x: X) => Promise<Y>) {
+        this.f = f;
+        this.handle_things_to_do();
+    }
+
+    async handle_things_to_do() {
+        if (!this.working && this.f) {
+            this.working = true;
+
+            while (this.things_to_do.length > 0) {
+                const x = this.things_to_do[0];
+                this.things_to_do = this.things_to_do.slice(1);
+                const message = { id: x.id, result: await this.f(x.task)} as TaskResult<Y>;
+                //console.log(message);
+                postMessage(message);
+            }
+
+            this.working = false;
+        }
     }
 }
-
-
-(async () => {
-    // deno-lint-ignore no-explicit-any
-    worker_loop.start(worker_handle_message as any);
-  })();

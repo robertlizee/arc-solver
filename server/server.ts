@@ -35,10 +35,18 @@ Bun.serve({
   async fetch(req) {
     const url = new URL(req.url);
 
-    if (url.pathname === "/client.js" || url.pathname === "/worker.js" || url.pathname === '/service_worker.js') {
+    const files_to_build: { [file: string]: string } = {
+      '/client.js': 'client/client.ts',
+      '/worker/worker.ts': 'worker/worker.ts',
+      '/service_worker.js': 'worker/service_worker.ts'
+    }
+
+    const file_to_build = files_to_build[url.pathname];
+
+    if (file_to_build) {
       try {
         const result = await Bun.build({
-          entrypoints: [`client${url.pathname}`]
+          entrypoints: [file_to_build]
         });
 
         if (result.success) {
@@ -62,7 +70,7 @@ Bun.serve({
         const files = await readdir(`public${url.pathname}`);
         return new Response(files.join('\n'));
       } else if (url.searchParams.get('save')) {
-        if (url.pathname.startsWith('client') && (url.pathname.endsWith('.ts') || url.pathname.endsWith('.json') )) {
+        if (url.pathname.startsWith('/client') && (url.pathname.endsWith('.ts') || url.pathname.endsWith('.json') )) {
           await Bun.write(`public${url.pathname}`, await new Response(req.body).blob());
           return new Response('ok');  
         } else {

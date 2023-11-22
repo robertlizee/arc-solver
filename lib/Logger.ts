@@ -22,7 +22,7 @@
  * SOFTWARE.
  */
 
-let do_logging = true;
+let do_logging = false;
 
 export function set_logging(value: boolean) {
     do_logging = value;

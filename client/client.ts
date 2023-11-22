@@ -32,10 +32,9 @@ import { make_puzzle_canvas } from "./ArcPuzzleElement";
 import { Decomposer, decomposer_prefix, decomposer_root, decomposer_suffix, decomposer_to_key, normalize_decomposer } from "../lib/DecomposersData";
 import { random_permutation } from "../lib/Misc";
 import { set_logging } from "../lib/Logger";
-import { solve_puzzle } from "../lib/UsingSolver";
-import { WorkerManager } from "./WorkerManager";
+import { default_decomposers_to_try, solve_puzzle } from "../lib/UsingSolver";
+import { WorkerManager } from "../worker/WorkerManager";
 import "monaco-editor/monaco.d.ts";
-import { symbolName } from "typescript";
 
 set_logging(true);
 
@@ -76,15 +75,17 @@ async function init_editor() {
 }
 
 async function solve_training() {
-  const decomposers = await load_json('client/decomposers.json');
-  await solve_with_decomposers("ARC/training", random_permutation(decomposers));
+  const decomposers: { decomposer_input: Decomposer, decomposer_output: Decomposer }[] = await load_json('client/decomposers.json');
+  //await solve_with_decomposers("ARC/training", random_permutation(decomposers));
   //await solve_with_decomposers("ARC/training", default_decomposers_to_try);
+  await solve_with_decomposers("ARC/training", [...random_permutation(decomposers), ...default_decomposers_to_try]);
 }
 
 async function solve_evaluation() {
-  const decomposers = await load_json('client/decomposers.json');
-  await solve_with_decomposers("ARC/evaluation", random_permutation(decomposers));
+  const decomposers: { decomposer_input: Decomposer, decomposer_output: Decomposer }[] = await load_json('client/decomposers.json');
+  //await solve_with_decomposers("ARC/evaluation", random_permutation(decomposers));
   //await solve_with_decomposers("ARC/evaluation", default_decomposers_to_try);
+  await solve_with_decomposers("ARC/evaluation", [...random_permutation(decomposers), ...default_decomposers_to_try]);
 }
 
 const worker_manger = new WorkerManager(8);

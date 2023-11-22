@@ -33,7 +33,7 @@ export class WorkerManager {
     actions_working = 0;
     
     constructor(public worker_count: number) {
-        this.workers = [...range(worker_count)].map(_ => new Worker('worker.js'));
+        this.workers = [...range(worker_count)].map(_ => new Worker('worker/worker.ts'));
         this.free_workers = [...this.workers];
         for (const worker of this.workers) {
             worker.onmessage = message => this.receive_task_result(worker, message);
@@ -78,17 +78,17 @@ export class WorkerManager {
     
             this.task_waiting.set(id, task.resolve);
     
-            console.log('post message to worker', { id, task }, worker);    
+            //console.log('post message to worker', { id, task }, worker);    
         }
     }
     
     receive_task_result = (worker: Worker, result: MessageEvent<TaskResult<unknown>>) => {
         this.free_workers.push(worker);
         const id = result.data.id;
-        console.log('received message');
-        console.log(result);
+        //console.log('received message');
+        //console.log(result);
         if (this.task_waiting.has(id)) {
-            console.log('found message');
+            //console.log('found message');
             this.task_waiting.get(id)!(result.data.result);
             this.task_waiting.delete(id);
         }

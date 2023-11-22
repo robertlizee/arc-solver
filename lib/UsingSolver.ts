@@ -144,7 +144,7 @@ export async function solve_puzzle_trying_all_decomposers(puzzle: ArcPuzzle, dec
   const seen_configuration = new Set<string>();
 
   for (const { decomposer_input, decomposer_output } of decomposers) {
-    log(`Doing ${decomposer_to_key(decomposer_input)} -> ${decomposer_to_key(decomposer_output)}`);
+    //log(`Doing ${decomposer_to_key(decomposer_input)} -> ${decomposer_to_key(decomposer_output)}`);
     if (await solve_puzzle_using_decomposers(puzzle, decomposer_input, decomposer_output, seen_configuration)) {
       return true;
     }
@@ -164,7 +164,7 @@ export async function solve_puzzle_using_decomposers(puzzle: ArcPuzzle, decompos
         let bug = false;
         let success = true;
 
-        log(`Trying ${decomposer_to_list(decomposer_input_data).join(',')} -> ${decomposer_to_list(decomposer_output_data).join(',') }`);
+        //log(`Trying ${decomposer_to_list(decomposer_input_data).join(',')} -> ${decomposer_to_list(decomposer_output_data).join(',') }`);
 
         await new Promise(resolve => setTimeout(resolve, 1));
 
