@@ -698,10 +698,10 @@ export class Solver {
 
     samples: (_mask?: bigint) => Generator<Sample, void, unknown> = function*(_mask = -1n) {};
 
-    static async make(input_images: SymbolicImage[], output_images: SymbolicImage[], options: SolverOptions = {}) {
+    static async make(input_images: SymbolicImage[], output_images: SymbolicImage[], options: SolverOptions = {}, timeout = 10000) {
         const solver = new Solver(options);
 
-        solver.setTimeout(10000);
+        solver.setTimeout(timeout);
 
         await solver.init(input_images, output_images);
 
@@ -1851,7 +1851,7 @@ export class Solver {
                         boolean_terms_left.sort((a, b) => b.count - a.count);
                         const term_selected = boolean_terms_left[0];
                         boolean_terms_selected.push(term_selected);
-                        alert(`selected: ${boolean_terms_selected.length}, left: ${boolean_terms_left.length}, count: ${term_selected.count}, func: ${term_selected.boolean_function.path}`);
+                        //alert(`selected: ${boolean_terms_selected.length}, left: ${boolean_terms_left.length}, count: ${term_selected.count}, func: ${term_selected.boolean_function.path}`);
                         log(term_selected);
                         boolean_terms_left = boolean_terms_left.map(term => { 
                             const bitfield = term.bitfield & ~term_selected.bitfield;

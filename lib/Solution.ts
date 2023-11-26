@@ -51,7 +51,7 @@ export function solution2<I1 extends ConcreteImage, I2 extends ConcreteImage, I3
 
 export function rasterize<I extends ConcreteImage>(decomposer: (grid: Grid) => I) {
     return {
-        rasterizer: true,
+        painter: true,
         decomposer_input: decomposer
     }
 }*/
@@ -83,15 +83,15 @@ export function solution2(decomposer_input: Decomposer, decomposer_output: Decom
     };
 }
 
-export function rasterize(decomposer: Decomposer) {
+export function paint(decomposer: Decomposer) {
     const fdecomposer = build_decomposer(decomposer)
     return {
-        rasterizer: true,
+        painter: true,
         decomposer_input: fdecomposer
     }
 }
 
-rasterize(basic_grid);
+paint(basic_grid);
 solution(image_window(color_decomposition(centered(find_master_grid(object_list(monochrome(add_info(basic_grid, complement(simple_abstraction('test', semantic_box))))))))),
     // deno-lint-ignore no-explicit-any
     grid => new ImageTransformation(Transform.rotate_180, new Scale(select(selects([1,2,3], _x => true), _x => true)! + highest(highests([1, 2, 3], x => x), x => x)! + lowest(lowests([1, 2, 3], x => x), x => x)!, make_object_list((grid as any).image.list.map((_obj: any) => make_image_window(set_background(Color.red, new SolidColor(Color.red))))))));
@@ -103,7 +103,7 @@ log(count_items([1, 2, 3]));
 
 export function evaluate_solver(code: string): { 
     solver: (grid: Grid) => Grid, 
-    rasterizer?: boolean,
+    painter?: boolean,
     decomposer_input?: (grid: Grid) => ConcreteImage, 
     decomposer_output?: (grid: Grid) => ConcreteImage,
     decomposer_input_data: Decomposer,

@@ -11,13 +11,13 @@ export declare function solution2(decomposer_input: Decomposer, decomposer_outpu
     decomposer_input_data: Decomposer;
     decomposer_output_data: Decomposer;
 };
-export declare function rasterize(decomposer: Decomposer): {
-    rasterizer: boolean;
+export declare function paint(decomposer: Decomposer): {
+    painter: boolean;
     decomposer_input: (grid: Grid) => ConcreteImage;
 };
 export declare function evaluate_solver(code: string): {
     solver: (grid: Grid) => Grid;
-    rasterizer?: boolean;
+    painter?: boolean;
     decomposer_input?: (grid: Grid) => ConcreteImage;
     decomposer_output?: (grid: Grid) => ConcreteImage;
     decomposer_input_data: Decomposer;

@@ -46,7 +46,9 @@ Bun.serve({
     if (file_to_build) {
       try {
         const result = await Bun.build({
-          entrypoints: [file_to_build]
+          entrypoints: [file_to_build],
+          format: 'esm',
+          //sourcemap: 'inline'
         });
 
         if (result.success) {

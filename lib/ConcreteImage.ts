@@ -725,7 +725,7 @@ export class SubImages<I extends ConcreteImage> extends ConcreteImage {
         log('SubImages.build_solver_internal type 2');
 
         if (solver.is_constant_output(number_function('count'))
-                && this.list.length <= 4) 
+                && this.list.length <= 10) 
         {
             try {
                 const sub_images_function = await Promise.all(this.list.map((sub_image, i) => sub_image.build_solver_function(solver, F.make(`list${i}`, (image: SubImages<I>) => image.list[i]).prefix(path))));

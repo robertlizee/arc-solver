@@ -76,16 +76,16 @@ async function init_editor() {
 
 async function solve_training() {
   const decomposers: { decomposer_input: Decomposer, decomposer_output: Decomposer }[] = await load_json('client/decomposers.json');
-  //await solve_with_decomposers("ARC/training", random_permutation(decomposers));
+  await solve_with_decomposers("ARC/training", random_permutation(decomposers));
   //await solve_with_decomposers("ARC/training", default_decomposers_to_try);
-  await solve_with_decomposers("ARC/training", [...random_permutation(decomposers), ...default_decomposers_to_try]);
+  //await solve_with_decomposers("ARC/training", [...random_permutation(decomposers), ...default_decomposers_to_try]);
 }
 
 async function solve_evaluation() {
   const decomposers: { decomposer_input: Decomposer, decomposer_output: Decomposer }[] = await load_json('client/decomposers.json');
-  //await solve_with_decomposers("ARC/evaluation", random_permutation(decomposers));
+  await solve_with_decomposers("ARC/evaluation", random_permutation(decomposers));
   //await solve_with_decomposers("ARC/evaluation", default_decomposers_to_try);
-  await solve_with_decomposers("ARC/evaluation", [...random_permutation(decomposers), ...default_decomposers_to_try]);
+  //await solve_with_decomposers("ARC/evaluation", [...random_permutation(decomposers), ...default_decomposers_to_try]);
 }
 
 const worker_manger = new WorkerManager(8);
@@ -301,25 +301,6 @@ async function solve_with_clues() {
     .map(puzzle => { return { decomposer_input: puzzle.decomposer_input!, decomposer_output: puzzle.decomposer_output! } });
 
   save("client/decomposers.json", JSON.stringify(decomposers));
-
-  /*const decomposer_map: Map<string, Decomposer> = new Map();
-
-  for (const decomposer of decomposers) {
-    decomposer_map.set(decomposer_to_key(decomposer.decomposer_input), decomposer.decomposer_input);
-    decomposer_map.set(decomposer_to_key(decomposer.decomposer_output), decomposer.decomposer_output);
-  }
-  
-  const all_decomposers_key = [...new Set([...decomposers.map(d => decomposer_to_key(d.decomposer_input)), ...decomposers.map(d => decomposer_to_key(d.decomposer_output))])];
-
-  const new_decomposers: { decomposer_input: Decomposer, decomposer_output: Decomposer }[] = [];
-
-  for (const input of all_decomposers_key) {
-    for (const output of all_decomposers_key) {
-      new_decomposers.push({ decomposer_input: decomposer_map.get(input)!, decomposer_output: decomposer_map.get(output)!});
-    }
-  }
-
-  save("client/decomposers.json", JSON.stringify(new_decomposers));*/
 
   puzzles_decomposers = puzzles.filter(puzzle => puzzle.state === 'solved' && puzzle.type === 2)
     .map(puzzle => { return { input: puzzle.decomposer_input!, output: normalize_decomposer(puzzle.decomposer_output!) }; });

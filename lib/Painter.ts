@@ -100,7 +100,7 @@ export class Tile extends SymbolicImage {
     }
 }
 
-export class Rasterizer<I extends ConcreteImage> extends ConcreteImage {
+export class Painter<I extends ConcreteImage> extends ConcreteImage {
 
     width: number;
     height: number;
@@ -243,7 +243,7 @@ export class Rasterizer<I extends ConcreteImage> extends ConcreteImage {
         return result;
     }
 
-    rasterize() {
+    paint() {
         for (let layer = 0; layer < this.tile_functions.length; layer++) {
             this.rasterize_layer(layer);
         }
@@ -251,65 +251,64 @@ export class Rasterizer<I extends ConcreteImage> extends ConcreteImage {
         return this.final_grid();
     }
 
-    static async learn_rasterization<I extends ConcreteImage>(input_grids: Grid[], output_grids: Grid[], input_decomposer: (grid: Grid) => I, tile_radius = 2) {
+    static async learn_painting_rules<I extends ConcreteImage>(input_grids: Grid[], output_grids: Grid[], input_decomposer: (grid: Grid) => I, tile_radius = 2) {
 
-        return;
-        const rasterizers: Rasterizer<I>[] = [];
+        const painters: Painter<I>[] = [];
 
         for (let i = 1; i < input_grids.length; i++) {
-            rasterizers.push(new Rasterizer(tile_radius, input_decomposer(input_grids[i]), input_grids[i], output_grids[i]));
+            painters.push(new Painter(tile_radius, input_decomposer(input_grids[i]), input_grids[i], output_grids[i]));
         }
 
-        const solver = await Solver.make(rasterizers, rasterizers);
+        const solver = await Solver.make(painters, painters, undefined, 1000000);
 
         let layer = 0;
 
-        while (Rasterizer.learn_layer(solver, layer++)) {
+        while (await Painter.learn_layer(solver, layer++)) {
             //
             break;
         }
 
-        if (all(rasterizers, rasterizer => rasterizer.output_grid!.equals(rasterizer.grid_at_layer(layer-1)))) {
-            const tile_functions = [...rasterizers[0].tile_functions];
+        if (all(painters, painter => painter.output_grid!.equals(painter.grid_at_layer(layer-1)))) {
+            const tile_functions = [...painters[0].tile_functions];
             return (grid: Grid) => {
-                const rasterizer = new Rasterizer(tile_radius, input_decomposer(grid), grid);
-                rasterizer.tile_functions = [...tile_functions];
-                return rasterizer.rasterize();
+                const painter = new Painter(tile_radius, input_decomposer(grid), grid);
+                painter.tile_functions = [...tile_functions];
+                return painter.paint();
             }
         } else {
-            const tile_functions = [...rasterizers[0].tile_functions];
+            const tile_functions = [...painters[0].tile_functions];
             return (grid: Grid) => {
-                const rasterizer = new Rasterizer(tile_radius, input_decomposer(grid), grid);
-                rasterizer.tile_functions = [...tile_functions];
-                return rasterizer.rasterize();
+                const painter = new Painter(tile_radius, input_decomposer(grid), grid);
+                painter.tile_functions = [...tile_functions];
+                return painter.paint();
             }
         }
     }
 
-    static make_sub_solver(solver: Solver, layer: number) {
-        const prefix = <X> () => prefix_generation<X>(F.make<SymbolicImage[], Rasterizer<ConcreteImage>>(`tiles[${layer}]`, rasterizer => rasterizer.tiles[layer]), 0);
+    static async make_sub_solver(solver: Solver, layer: number) {
+        const prefix = <X> () => prefix_generation<X>(F.make<SymbolicImage[], Painter<ConcreteImage>>(`tiles[${layer}]`, painter => painter.tiles[layer]), 0);
         const sub_solver = new Solver({ no_sub_table_analysis: true, no_equal: true });
-        sub_solver.sub_init(solver, {
-            length_function: F.make<number, Rasterizer<ConcreteImage>>(`tiles[${layer}].length`, rasterizer => rasterizer.tiles[layer].length),
-            index_function: F.make<number, Rasterizer<ConcreteImage>>(`i0`, (_raterizer, i0) => i0, undefined, true),
+        await sub_solver.sub_init(solver, {
+            length_function: F.make<number, Painter<ConcreteImage>>(`tiles[${layer}].length`, painter => painter.tiles[layer].length),
+            index_function: F.make<number, Painter<ConcreteImage>>(`i0`, (_raterizer, i0) => i0, undefined, true),
             sub_images_functions: [],
-            number_functions: (solver.first_sample().input_image as Rasterizer<ConcreteImage>).tiles[layer][0].number_functions().map(prefix()),
-            color_functions: (solver.first_sample().input_image as Rasterizer<ConcreteImage>).tiles[layer][0].color_functions().map(prefix()),
+            number_functions: (solver.first_sample().input_image as Painter<ConcreteImage>).tiles[layer][0].number_functions().map(prefix()),
+            color_functions: (solver.first_sample().input_image as Painter<ConcreteImage>).tiles[layer][0].color_functions().map(prefix()),
             grid_number_functions: [],
         });
         return sub_solver;
     }
 
-    static compute_tile_function(solver: Solver, layer: number) {
-        const sub_solver = Rasterizer.make_sub_solver(solver, layer);
-        const prefix = prefix_generation<Color>(F.make<SymbolicImage[], Rasterizer<ConcreteImage>>(`tiles[${layer}]`, rasterizer => rasterizer.tiles[layer]), 0);
+    static async compute_tile_function(solver: Solver, layer: number) {
+        const sub_solver = await Painter.make_sub_solver(solver, layer);
+        const prefix = prefix_generation<Color>(F.make<SymbolicImage[], Painter<ConcreteImage>>(`tiles[${layer}]`, painter => painter.tiles[layer]), 0);
         const target_function = prefix(F.make<Color, Tile>('target'));
 
-        return sub_solver.select_best_function(target_function, true, 'color');
+        return await sub_solver.select_best_function(target_function, true, 'color');
     }
 
     static async learn_layer(solver: Solver, layer: number) {
-        const images = [...solver.samples()].map(sample => sample.input_image as Rasterizer<ConcreteImage>);
+        const images = [...solver.samples()].map(sample => sample.input_image as Painter<ConcreteImage>);
         let tile_function: F<Color> | undefined = undefined;
 
         let count = 10;
@@ -335,7 +334,7 @@ export class Rasterizer<I extends ConcreteImage> extends ConcreteImage {
                 return true;
             }
 
-            const new_tile_function = await Rasterizer.compute_tile_function(solver, layer);
+            const new_tile_function = await Painter.compute_tile_function(solver, layer);
 
             if (new_tile_function && new_tile_function.bitfield !== 0n) {
                 tile_function = new_tile_function.func;

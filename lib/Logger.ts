@@ -26,16 +26,15 @@ let do_logging = false;
 
 export function set_logging(value: boolean) {
     do_logging = value;
-}
 
-export function log(...rest: unknown[]) {
     if (do_logging) {
-        console.log(...rest);
+        log = console.log;
+        log_error = console.error;
+    } else {
+        log_error = log = (...x: any[]) => {};
     }
 }
 
-export function log_error(...rest: unknown[]) {
-    if (do_logging) {
-        console.error(...rest);
-    }
-}
+export let log = (...x: any[]) => {};
+
+export let log_error = (...x: any[]) => {};

@@ -32,7 +32,7 @@ import { append_vectors } from "./Misc";
 import { Solver,F } from "./Solver";
 import { SymbolicImage } from "./SymbolicImage";
 import { evaluate_solver } from "./Solution";
-import { Rasterizer } from "./Rasterizer.ts";
+import { Painter } from "./Painter.ts";
 import { Abstraction } from "./Abstraction.ts";
 import { access } from "fs";
 
@@ -153,8 +153,6 @@ export async function solve_puzzle_trying_all_decomposers(puzzle: ArcPuzzle, dec
   return false;
 }
 
-
-
 export async function solve_puzzle_using_decomposers(puzzle: ArcPuzzle, decomposer_input_data: Decomposer, decomposer_output_data: Decomposer, seen_configuration: Set<string>) {
 
     decomposer_input_data = decomposer_clone(decomposer_input_data);
@@ -256,7 +254,7 @@ export async function solve_puzzle_using_decomposers(puzzle: ArcPuzzle, decompos
     }
 }
 
-new Rasterizer(2, new Abstraction('test', []), new Grid(1, 1));
+new Painter(2, new Abstraction('test', []), new Grid(1, 1));
 
 export async function solve_puzzle(puzzle: ArcPuzzle) {
   if (puzzle.program_transpiled) {
@@ -287,11 +285,12 @@ export async function solve_puzzle(puzzle: ArcPuzzle) {
           console.error(e);
         }
         
-      } else if (solver.rasterizer) {
+      } else if (false && solver.painter) {
         let bug = false;
         let success = true;
+        console.log("Doing painter")
         try {
-          const fsolver = (await Rasterizer.learn_rasterization(
+          const fsolver = (await Painter.learn_painting_rules(
             puzzle.train.map(sample => Grid.from_grid(sample.input)), 
             puzzle.train.map(sample => Grid.from_grid(sample.output)), 
             solver.decomposer_input!
@@ -313,6 +312,7 @@ export async function solve_puzzle(puzzle: ArcPuzzle) {
         }
         puzzle.state = success? 'solved' : bug? 'bug' : 'failed';
         puzzle.type = 2;
+        console.log("painter done");
 
       } else {
         let bug = false;
@@ -428,21 +428,6 @@ export async function solve_puzzle(puzzle: ArcPuzzle) {
         puzzle.state = marked? 'marked' : success? 'solved' : success2? 'half-solved' : bug? 'bug' : 'failed';
         puzzle.type = type2? 2 : 1;
 
-        /*if (success) {
-          try {
-            const program = ts.createProgram({ rootNames: [program_name], options: {} });
-
-            const sourceFileRaw = ts.createSourceFile(
-              program_name,
-              program_string,
-              ts.ScriptTarget.Latest,
-              false,
-              ts.ScriptKind.TS
-            );
-          } catch (e) {
-            console.error(e.toString());
-          }
-        }*/
       }
     } catch (e) {
       console.error(e);

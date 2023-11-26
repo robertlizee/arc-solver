@@ -149,7 +149,7 @@ export declare class Solver {
     raise_grid_number_function: (gf: GridFunction) => NumberFunction;
     raise_grid_function: (nf: NumberFunction) => GridFunction;
     samples: (_mask?: bigint) => Generator<Sample, void, unknown>;
-    static make(input_images: SymbolicImage[], output_images: SymbolicImage[], options?: SolverOptions): Promise<Solver>;
+    static make(input_images: SymbolicImage[], output_images: SymbolicImage[], options?: SolverOptions, timeout?: number): Promise<Solver>;
     private init;
     sub_init(solver: Solver, sub_functions: SubFunctions, mapping?: RecArray<number> | BooleanFunction, boolean_function?: BooleanFunction): Promise<void>;
     private sibbling_init;

@@ -530,8 +530,8 @@ declare class Grid extends MetaGrid<Color> {
     toString(): string;
 }
 declare function set_logging(value: boolean): void;
-declare function log(...rest: unknown[]): void;
-declare function log_error(...rest: unknown[]): void;
+declare let log: (...x: any[]) => void;
+declare let log_error: (...x: any[]) => void;
 declare function eqSet<X>(a: Set<X>, b: Set<X>): boolean;
 declare function set_equal<X>(a: Set<X>, b: Set<X>): boolean;
 declare function set_union<X>(...all_sets: Set<X>[]): Set<X>;
@@ -574,13 +574,13 @@ declare function solution2(decomposer_input: Decomposer, decomposer_output: Deco
     decomposer_input_data: Decomposer;
     decomposer_output_data: Decomposer;
 };
-declare function rasterize(decomposer: Decomposer): {
-    rasterizer: boolean;
+declare function paint(decomposer: Decomposer): {
+    painter: boolean;
     decomposer_input: (grid: Grid) => ConcreteImage;
 };
 declare function evaluate_solver(code: string): {
     solver: (grid: Grid) => Grid;
-    rasterizer?: boolean;
+    painter?: boolean;
     decomposer_input?: (grid: Grid) => ConcreteImage;
     decomposer_output?: (grid: Grid) => ConcreteImage;
     decomposer_input_data: Decomposer;
@@ -733,7 +733,7 @@ declare class Solver {
     raise_grid_number_function: (gf: GridFunction) => NumberFunction;
     raise_grid_function: (nf: NumberFunction) => GridFunction;
     samples: (_mask?: bigint) => Generator<Sample, void, unknown>;
-    static make(input_images: SymbolicImage[], output_images: SymbolicImage[], options?: SolverOptions): Promise<Solver>;
+    static make(input_images: SymbolicImage[], output_images: SymbolicImage[], options?: SolverOptions, timeout?: number): Promise<Solver>;
     private init;
     sub_init(solver: Solver, sub_functions: SubFunctions, mapping?: RecArray<number> | BooleanFunction, boolean_function?: BooleanFunction): Promise<void>;
     private sibbling_init;
