@@ -1,4 +1,6 @@
 # ARC-Solver
+## Accompagnig paper
+https://raw.github.com/robertlizee/arc-solver/master/arcathon_rlizee.pdf
 
 ## Note:
 Works with **Linux**; on **Windows** with **WSL**, you might need to do a `wsl --update` for the project to work correctly, even inside a docker container.
