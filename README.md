@@ -1,6 +1,6 @@
 # ARC-Solver
 ## Associated paper
-https://raw.github.com/robertlizee/arc-solver/master/arcathon_rlizee.pdf
+[The Symbolic Inner Core Hypothesis for AGI](https://raw.github.com/robertlizee/arc-solver/master/arcathon_rlizee.pdf
 
 ## Note:
 Works with **Linux**; on **Windows** with **WSL**, you might need to do a `wsl --update` for the project to work correctly, even inside a docker container.
