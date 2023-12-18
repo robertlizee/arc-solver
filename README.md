@@ -1,5 +1,5 @@
 # ARC-Solver
-## Accompagnig paper
+## Associated paper
 https://raw.github.com/robertlizee/arc-solver/master/arcathon_rlizee.pdf
 
 ## Note:
